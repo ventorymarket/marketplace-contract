@@ -1,12 +1,48 @@
-pragma ever-solidity >= 0.61.2;
+pragma ton-solidity =0.58.1;
 
-import "../structures/IMarketFeeStructure.sol";
+interface IOffersRoot {
+	function getOwner() external view responsible returns (uint256 ownerPubkey);
 
-interface IOffersRoot is IMarketFeeStructure {
+	function getWithdrawalAddress()
+		external
+		view
+		responsible
+		returns (address withdrawalAddress);
 
-    function changeDeploymentFee(uint128 _value) external;
-    function changeBidDelta(uint16 _auctionBidDelta, uint16 _auctionBidDeltaDecimals) external;
-    function setMarketFee(MarketFee _fee) external;
-    function setMarketFeeForAuction(address auction, MarketFee _fee) external;
-    function getMarketFee() external view returns (MarketFee);
+	function getFeesInfo()
+		external
+		view
+		responsible
+		returns (
+			uint128 deploymentFee,
+			uint128 creationPrice,
+			uint128 totalDeploymentPrice,
+			uint128 minimalGasAmount,
+			uint128 nftGasAmount,
+			uint128 leftOnOfferAfterFinish,
+			uint128 nftTransferFee,
+			uint128 methodsCallsFee,
+			uint8 marketFee,
+			uint8 marketFeeDecimals
+		);
+
+	function getMarketStatus()
+		external
+		view
+		responsible
+		returns (bool marketIsActive);
+
+	function offerCode() external view responsible returns (TvmCell code);
+
+	function offerCodeHash()
+		external
+		view
+		responsible
+		returns (uint256 codeHash);
+
+	function offerAddress(uint256 id)
+		external
+		view
+		responsible
+		returns (address offer);
 }
